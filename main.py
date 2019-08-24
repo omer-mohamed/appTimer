@@ -3,13 +3,22 @@ from os import system
 import time
 from activity import *
 import json
-import datetime
+import csv
+import json
+from pandas.io.json import json_normalize
 
 active_window_name = ""
 activity_name = ""
 start_time = datetime.datetime.now()
 activeList = AcitivyList([])
 first_time = True
+
+def toTable():
+
+    with open('activities.json') as data_file:
+        data = json.load(data_file)
+    print(json_normalize(data))
+
 
 try:
     while True:
@@ -58,7 +67,8 @@ try:
             active_window_name = new_window_name
 
 
-        time.sleep(10)
+        time.sleep(8)
 except KeyboardInterrupt:
     with open('activities.json', 'w') as json_file:
         json.dump(activeList.serialize(), json_file, indent=4, sort_keys=True)
+    toTable()
